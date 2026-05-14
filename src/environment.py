@@ -24,13 +24,13 @@ class UrbanMobilityWrapper:
         )
         self.agent_ids: list[str] = []
 
-    def compute_custom_reward(self, info: dict) -> float:
-        reward = 0.0
-        if info is not None and isinstance(info, dict):
-            waiting_time = info.get("system_total_waiting_time", 0)
-            stopped_vehicles = info.get("system_total_stopped", 0)
-            reward = -(waiting_time + stopped_vehicles)
-        return float(reward)
+    def compute_custom_rewards(self, info: dict, ts_ids: list[str]) -> dict:
+        rewards = {}
+        for ts in ts_ids:
+            stopped = info.get(f"{ts}_stopped", 0)
+            accumulated_waiting_time = info.get(f"{ts}_accumulated_waiting_time", 0)
+            rewards[ts] = -(stopped + accumulated_waiting_time)
+        return rewards
 
     def _extract_agent_ids(self, obs: Any) -> list[str]:
         if isinstance(obs, dict):
@@ -46,9 +46,15 @@ class UrbanMobilityWrapper:
         self.agent_ids = self._extract_agent_ids(obs)
         return obs, info
 
-    def step(self, actions: Any) -> tuple[Any, float, bool, dict]:
-        obs, rewards, terminated, truncated, info = self.env.step(actions)
+    def step(self, actions: Any) -> tuple[Any, dict, dict, dict]:
+        obs, rewards, dones, info = self.env.step(actions)
         self.agent_ids = self._extract_agent_ids(obs)
-        custom_reward = self.compute_custom_reward(info)
-        done = bool(terminated or truncated)
-        return obs, custom_reward, done, info
+        custom_rewards = {}
+        if info is not None and isinstance(info, dict) and self.agent_ids:
+            custom_rewards = self.compute_custom_rewards(info, self.agent_ids)
+        elif isinstance(rewards, dict):
+            custom_rewards = rewards
+        else:
+            custom_rewards = {ts: float(rewards) for ts in self.agent_ids}
+
+        return obs, custom_rewards, dones, info
