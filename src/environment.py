@@ -57,4 +57,4 @@ class UrbanMobilityWrapper:
         else:
             custom_rewards = {ts: float(rewards) for ts in self.agent_ids}
 
-        return obs, custom_rewards, dones, info
+        return obs, custom_rewards, dones, info 

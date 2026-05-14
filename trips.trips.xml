@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated on 2026-05-14 12:34:41.987158 by Eclipse SUMO randomTrips.py v1_26_0+0000-fa7df22d7f1
+<configuration>
+    <net-file value="maps/sydney_cbd.net.xml"/>
+    <route-file value="maps/sydney_cbd.rou.xml"/>
+    <insertion-rate value="0.5"/>
+</configuration>
+-->
+
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/routes_file.xsd">
+    <trip id="0" depart="0.00" from="252102267#2" to="-1346339155"/>
+</routes>

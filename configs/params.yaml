@@ -5,7 +5,7 @@ project_meta:
   authors: ["Malhar Gohel", "Min Sithu", "Chris Botoman"]
 
 simulation:
-  gui: false                  # Set to true to watch the SUMO simulation
+  gui: true                  # Set to true to watch the SUMO simulation
   net_file: "maps/sydney_cbd.net.xml"
   route_file: "maps/sydney_cbd.rou.xml"
   seconds_per_episode: 3600   # 1 hour of simulation

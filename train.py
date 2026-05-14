@@ -143,7 +143,8 @@ def train_local_agent(
             state_tensor = to_tensor(state, state_dim=state_dim, seq_len=seq_len, device=device)
             action, log_prob, value = select_action(agent, state_tensor)
             actions = build_action_dict(env.agent_ids, action)
-            next_state, reward, done, _ = env.step(actions)
+            next_state, reward, done_dict, _ = env.step(actions)
+            done = all(done_dict.values()) if isinstance(done_dict, dict) else bool(done_dict)
 
             log_probs.append(log_prob)
             values.append(value)
@@ -151,8 +152,18 @@ def train_local_agent(
             state = next_state
             step += 1
 
-        episode_reward += sum(rewards)
-        returns = compute_returns(rewards, gamma).to(device)
+        for r in rewards:
+            if isinstance(r, dict):
+               episode_reward += sum(r.values())
+            else:
+               episode_reward += float(r)
+        flat_rewards = []
+        for r in rewards:
+            if isinstance(r, dict):
+               flat_rewards.append(sum(r.values()))
+            else:
+               flat_rewards.append(float(r))
+        returns = compute_returns(flat_rewards, gamma).to(device)
         values_tensor = torch.stack(values).squeeze(-1)
         advantages = returns - values_tensor
         policy_loss = -(torch.stack(log_probs) * advantages.detach()).mean()

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated on 2026-05-14 12:34:42.602425 by Eclipse SUMO randomTrips.py v1_26_0+0000-fa7df22d7f1
+<configuration>
+    <net-file value="maps/sydney_cbd.net.xml"/>
+    <route-file value="maps/sydney_cbd.rou.xml"/>
+    <insertion-rate value="0.5"/>
+</configuration>
+-->
+
+<!-- generated on 2026-05-14T12:34:42.497081+10:00 by Eclipse SUMO duarouter 1.26.0
+<duarouterConfiguration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/duarouterConfiguration.xsd">
+
+    <input>
+        <net-file value="maps/sydney_cbd.net.xml"/>
+        <route-files value="trips.trips.xml"/>
+    </input>
+
+    <output>
+        <output-file value="maps/sydney_cbd.rou.xml"/>
+        <alternatives-output value="NUL"/>
+    </output>
+
+    <time>
+        <begin value="0"/>
+        <end value="3600.0"/>
+    </time>
+
+    <report>
+        <no-warnings value="true"/>
+        <ignore-errors value="true"/>
+        <no-step-log value="true"/>
+    </report>
+
+</duarouterConfiguration>
+-->
+
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/routes_file.xsd">
+    <vehicle id="0" depart="0.00">
+        <route edges="252102267#2 252102267#3 252102267#4 1431440888#1 235330383#3 1006717516#0 610937191#1 183759886#1 384804244#1 173175330 1424323627#0 1424323627#1 1424323628#0 1424323628#1 6268105#1 1346339155 -1346339155"/>
+    </vehicle>
+</routes>
