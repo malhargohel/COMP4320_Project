@@ -1,50 +1,51 @@
-# COMP4320: Machine Learning III - Project NexUS
-**Group:** Malhar Gohel, Min Sithu, Chris Botoman
+# Project NexUS: Federated Multi-Agent Reinforcement Learning for Traffic Signal Control
 
-## Overview
-This repository contains a federated multi-agent reinforcement learning prototype for traffic signal optimization.
-The training script now supports SUMO environment interaction for local agent updates and Federated Averaging across agents.
+**NexUS** is a distributed AI framework designed to optimize urban mobility. By combining **Federated Learning** with **Multi-Agent Reinforcement Learning (MARL)**, the system enables traffic signals at different intersections to learn optimal timing strategies collaboratively without sharing raw traffic data. This project was developed as part of **COMP4320: Machine Learning III**.
 
-## Setup
-1. Open PowerShell in the project root.
-2. Activate the virtual environment:
-   - `.\\test.venv\Scripts\Activate.ps1`
-3. Install dependencies if needed:
-   - `python -m pip install -r requirements.txt`
+---
 
-## Run training
-From the project root:
+## 🚀 Overview
+The core objective of NexUS is to reduce congestion and wait times in complex urban environments, utilizing models representative of the **Sydney CBD**.
 
+### Key Features
+* **Federated Learning (FedAvg)**: Implements decentralized training where local agents compute weight updates and a central server aggregates them using Federated Averaging to form a robust global model.
+* **Transformer-Based Agents**: Utilizes a `TransformerAgent` architecture to process environmental states and determine optimal traffic signal phases.
+* **SUMO Integration**: Direct interaction with the **Simulation of Urban MObility (SUMO)** suite for high-fidelity traffic simulation.
+* **Custom Reward Function**: Agents are incentivized to minimize both the number of stopped vehicles and the accumulated waiting time at intersections.
+
+---
+
+## 🛠️ System Architecture
+
+1.  **Local Environment**: Individual agents control specific traffic lights within a SUMO-simulated environment, such as the Sydney CBD map provided in the project.
+2.  **Local Training**: Agents undergo local training episodes to optimize their policy based on local traffic patterns before communicating with the server.
+3.  **Aggregation**: The `FederatedServer` collects local model weights and applies **FedAvg** to update the global model.
+4.  **Synchronization**: The improved global weights are distributed back to all local agents for the next round of training.
+
+---
+
+## 💻 Getting Started
+
+### Prerequisites
+* Python 3.10+
+* SUMO (Simulation of Urban MObility) installed and the `SUMO_HOME` environment variable set.
+
+### Installation
+1.  **Open PowerShell** in the project root directory.
+2.  **Activate the virtual environment**:
+    ```powershell
+    .\test.venv\Scripts\Activate.ps1
+    ```
+3.  **Install dependencies**:
+    ```powershell
+    python -m pip install -r requirements.txt
+    ```
+
+---
+
+## 🏃 Running the Simulation
+
+### Full Training with SUMO
+To run a real-world simulation using the configured SUMO network and route files:
 ```powershell
 python train.py --use-env
-```
-
-For a faster test run without SUMO:
-
-```powershell
-python train.py --rounds 10 --local-epochs 2
-```
-
-## Command options
-- `--use-env`: enable SUMO-based local training when `net_file` and `route_file` are available
-- `--rounds N`: number of federated communication rounds
-- `--local-epochs N`: local episodes per agent before aggregation
-- `--output-dir DIR`: directory for saved outputs
-
-## Where to see results
-The script saves output in the `results` folder:
-- `results/training_results.png`
-- `results/training_history.json`
-- `results/global_model.pth`
-
-## Configuration
-The default hyperparameters are in `configs/params.yaml`.
-Update `simulation.net_file` and `simulation.route_file` to point to your SUMO network and route files.
-
-## SUMO setup
-If you want real SUMO training, set the `SUMO_HOME` environment variable and install SUMO.
-The code will fallback to placeholder training when SUMO is unavailable.
-
-## Notes
-- If SUMO map files are missing, the code will fall back to placeholder local training.
-- For actual traffic-signal training, provide valid SUMO files in `configs/params.yaml` and run with `--use-env`.
