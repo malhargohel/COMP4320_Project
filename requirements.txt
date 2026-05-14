@@ -1,0 +1,6 @@
+torch>=2.0.0
+numpy>=1.24.0
+sumo-rl         # Specifically for the traffic simulation
+gymnasium
+pyyaml          # For config management
+matplotlib      # For plotting rewards

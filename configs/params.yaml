@@ -1,0 +1,29 @@
+# COMP4320 Project Hyperparameters
+project_meta:
+  name: "NexUS-Federated-MARL"
+  version: 1.0
+  authors: ["Malhar Gohel", "Min Sithu", "Chris Botoman"]
+
+simulation:
+  gui: false                  # Set to true to watch the SUMO simulation
+  net_file: "maps/sydney_cbd.net.xml"
+  route_file: "maps/sydney_cbd.rou.xml"
+  seconds_per_episode: 3600   # 1 hour of simulation
+  max_steps_per_episode: 200  # Episode step cap per local agent
+
+rl_params:
+  gamma: 0.99                 # Discount factor
+  learning_rate: 0.0003
+  state_dim: 20               # Length of the flattened state vector
+  action_dim: 4               # Actions available to each intersection
+  seq_len: 1                  # Transformer sequence length
+  epsilon_start: 1.0
+  epsilon_end: 0.05
+  epsilon_decay: 0.995
+  batch_size: 64
+
+federated_params:
+  num_agents: 3               # Number of decentralized intersection clusters
+  comm_rounds: 50             # Total federated rounds
+  local_epochs: 10            # Steps per agent before aggregation
+  aggregation_method: "FedAvg"
